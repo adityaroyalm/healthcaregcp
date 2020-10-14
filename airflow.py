@@ -36,7 +36,22 @@ dag = DAG(
 
 t1 = PapermillOperator(
     task_id="run_example_notebook",
-    input_nb="/tmp/hello_world.ipynb",
+    input_nb="preprocessing--sklearn (1).ipynb",
+    output_nb="/tmp/out-{{ execution_date }}.ipynb",
+    parameters={"msgs": "Ran from Airflow at {{ execution_date }}!"}
+)
+
+t2 = PapermillOperator(
+    task_id="run_example_notebook",
+    input_nb="train_sklearn (1).ipynb",
+    output_nb="/tmp/out-{{ execution_date }}.ipynb",
+    parameters={"msgs": "Ran from Airflow at {{ execution_date }}!"}
+)
+
+
+t3 = PapermillOperator(
+    task_id="run_example_notebook",
+    input_nb="test_sklearn (1).ipynb",
     output_nb="/tmp/out-{{ execution_date }}.ipynb",
     parameters={"msgs": "Ran from Airflow at {{ execution_date }}!"}
 )
