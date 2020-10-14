@@ -36,7 +36,7 @@ dag = DAG(
 
 t1 = PapermillOperator(
     task_id="preprocessing_notebook",
-    input_nb="preprocessing--sklearn (1).ipynb",
+    input_nb="/home/adi/airflow/dags/preprocessing--sklearn (1).ipynb",
     
     parameters={"msgs": "Ran from Airflow at {{ execution_date }}!"},
     dag=dag
@@ -44,7 +44,7 @@ t1 = PapermillOperator(
 
 t2 = PapermillOperator(
     task_id="train_notebook",
-    input_nb="train_sklearn (1).ipynb",
+    input_nb="/home/adi/airflow/dags/train_sklearn (1).ipynb",
     
     parameters={"msgs": "Ran from Airflow at {{ execution_date }}!"},
     dag=dag
@@ -53,7 +53,7 @@ t2 = PapermillOperator(
 
 t3 = PapermillOperator(
     task_id="test_notebook",
-    input_nb="test_sklearn (1).ipynb",
+    input_nb="/home/adi/airflow/dags/test_sklearn (1).ipynb",
     
     parameters={"msgs": "Ran from Airflow at {{ execution_date }}!"},
     dag=dag
