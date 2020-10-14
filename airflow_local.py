@@ -25,7 +25,7 @@ default_args = {
     'retry_delay': timedelta(minutes=5),
     }
 dag = DAG(
-    'tutorial',
+    'diabetes',
     default_args=default_args,
     description='A simple tutorial DAG',
     # Continue to run DAG once per day
