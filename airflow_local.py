@@ -5,7 +5,7 @@ Created on Tue Oct 13 14:54:53 2020
 @author: adityaroyal
 """
 from datetime import timedelta
-
+from airflow.operators import PythonOperator
 import airflow
 from airflow import DAG
 from airflow.operators.papermill_operator import PapermillOperator
@@ -32,32 +32,39 @@ dag = DAG(
     schedule_interval=timedelta(days=1),
 )
 
-
-
-t1 = PapermillOperator(
-    task_id="preprocessing_notebook",
-    input_nb="/home/adi/airflow/dags/preprocessing--sklearn (1).ipynb",
+def preprocessing():
+    import preprocessing_sklearn 
+def train():
+    import train_sklearn
+def test():
+    import test_sklearn
     
-    parameters={"msgs": "Ran from Airflow at {{ execution_date }}!"},
-    dag=dag
-)
+t1 = PythonOperator(task_id='preprocessing_notebook', python_callable=preprocessing, dag = dag)
 
-t2 = PapermillOperator(
-    task_id="train_notebook",
-    input_nb="/home/adi/airflow/dags/train_sklearn (1).ipynb",
+# t1 = PapermillOperator(
+#     task_id="preprocessing_notebook",
+#     input_nb="/home/adi/airflow/dags/preprocessing--sklearn (1).ipynb",
+#     parameters={"msgs": "Ran from Airflow at {{ execution_date }}!"},
+#     dag=dag
+# )
+t2 = PythonOperator(task_id='train_notebook', python_callable=train, dag = dag)
+
+# t2 = PapermillOperator(
+#     task_id="train_notebook",
+#     input_nb="/home/adi/airflow/dags/train_sklearn (1).ipynb",
     
-    parameters={"msgs": "Ran from Airflow at {{ execution_date }}!"},
-    dag=dag
-)
+#     parameters={"msgs": "Ran from Airflow at {{ execution_date }}!"},
+#     dag=dag
+# )
 
+t3 = PythonOperator(task_id='test_notebook', python_callable=test, dag = dag)
 
-t3 = PapermillOperator(
-    task_id="test_notebook",
-    input_nb="/home/adi/airflow/dags/test_sklearn (1).ipynb",
-    
-    parameters={"msgs": "Ran from Airflow at {{ execution_date }}!"},
-    dag=dag
-)
+# t3 = PapermillOperator(
+#     task_id="test_notebook",
+#     input_nb="/home/adi/airflow/dags/test_sklearn (1).ipynb",
+#     parameters={"msgs": "Ran from Airflow at {{ execution_date }}!"},
+#     dag=dag
+# )
 
 
 
